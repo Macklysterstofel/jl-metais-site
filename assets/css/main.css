@@ -17,6 +17,32 @@
   --nav-font: "Poppins", sans-serif;
 }
 
+.product-item img {
+  max-width: 100%;
+  height: auto;
+  display: block;
+  margin: 0 auto;
+  object-fit: cover;
+}
+
+.product-item {
+  height: 370px; /* Altura fixa para todos os contêineres de produtos */
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  padding: 10px;
+}
+
+.product-item img {
+  max-height: 250px; /* Altura máxima para as imagens */
+  margin-bottom: 10px; /* Espaço entre a imagem e o texto */
+}
+
+
+
+
 /* Global Colors */
 :root {
   /* Background Color - This color is applied to the background of the entire website as well as individual sections. */
