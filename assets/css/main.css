@@ -40,6 +40,21 @@
   margin-bottom: 10px; /* Espaço entre a imagem e o texto */
 }
 
+.breadcrumbs a {
+  color: white;
+}
+
+.scroll-top {
+  background-color: transparent;
+  border: none;
+}
+
+.scroll-top i {
+  color: white;
+  font-size: 24px; /* Aumenta o tamanho se necessário */
+  opacity: 1; /* Garante que a opacidade esteja no máximo */
+}
+
 
 
 
