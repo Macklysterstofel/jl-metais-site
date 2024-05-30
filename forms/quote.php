@@ -1,42 +1,46 @@
 <?php
-/**
- * Requires the "PHP Email Form" library
- * The "PHP Email Form" library is available only in the pro version of the template
- * The library should be uploaded to: vendor/php-email-form/php-email-form.php
- * For more info and help: https://bootstrapmade.com/php-email-form/
- */
+use PHPMailer\PHPMailer\PHPMailer;
+use PHPMailer\PHPMailer\Exception;
 
-// Substitua contact@example.com pelo seu endereço de e-mail real
-$receiving_email_address = 'mktstofel@gmail.com';
+// Manually include the PHPMailer files
+require '../PHPMailer/src/Exception.php';
+require '../PHPMailer/src/PHPMailer.php';
+require '../PHPMailer/src/SMTP.php';
 
-if (file_exists($php_email_form = '../assets/vendor/php-email-form/php-email-form.php')) {
-    include($php_email_form);
-} else {
-    die('Não foi possível carregar a biblioteca "PHP Email Form"!');
-}
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    $name = htmlspecialchars($_POST['name']);
+    $email = htmlspecialchars($_POST['email']);
+    $phone = htmlspecialchars($_POST['phone']);
+    $message = htmlspecialchars($_POST['message']);
 
-$contact = new PHP_Email_Form;
-$contact->ajax = true;
+    $mail = new PHPMailer(true);
+    try {
+        //Server settings
+        $mail->isSMTP();
+        $mail->Host = 'smtp.gmail.com';
+        $mail->SMTPAuth = true;
+        $mail->Username = 'runescapeland5@gmail.com'; // Your email
+        $mail->Password = 'restaurante01'; // Your email password
+        $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;
+        $mail->Port = 587;
 
-$contact->to = $receiving_email_address;
-$contact->from_name = $_POST['name'];
-$contact->from_email = $_POST['email'];
-$contact->subject = 'Solicitação de Orçamento';
+        //Recipients
+        $mail->setFrom($email, $name);
+        $mail->addAddress('mktstofel@gmail.com'); // Your receiving email address
 
-// Descomente o código abaixo se desejar usar SMTP para enviar e-mails. Você precisa inserir suas credenciais corretas de SMTP
-/*
-$contact->smtp = array(
-  'host' => 'example.com',
-  'username' => 'example',
-  'password' => 'pass',
-  'port' => '587'
-);
-*/
+        //Content
+        $mail->isHTML(false);
+        $mail->Subject = 'Solicitação de Orçamento';
+        $mail->Body    = "Nome: $name\nEmail: $email\nTelefone: $phone\nMensagem: $message";
 
-$contact->add_message($_POST['name'], 'Nome');
-$contact->add_message($_POST['email'], 'Email');
-$contact->add_message($_POST['phone'], 'Telefone');
-$contact->add_message($_POST['message'], 'Mensagem', 10);
-
-echo $contact->send();
-?>
+        $mail->send();
+        echo 'Sua solicitação de orçamento foi enviada com sucesso. Obrigado!';
+      } catch (Exception $e) {
+          echo "Falha ao enviar solicitação de orçamento. Mailer Error: {$mail->ErrorInfo}";
+      }
+  } else {
+      echo 'Método de solicitação inválido.';
+  }
+  ?>
+  
+       

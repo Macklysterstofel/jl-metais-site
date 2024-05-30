@@ -1119,7 +1119,7 @@ section,
 }
 
 .services .service-item .icon {
-  width: 48px;
+  width: 0px;
   height: 48px;
   position: relative;
   margin-bottom: 50px;
